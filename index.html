@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <title>sidemenu with dropdown</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    </head>
+    <body>
+        <div class="menu-btn">
+           <i class="fas fa-bars" style="color:white ;"></i>
+        </div>
+        <div class="side-bar">
+            <header>
+                <div class="close-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <img src="dollor.png" alt="">
+                <h1><center>TRADEPRO</center></h1>
+            </header>
+         <div class="menu">
+            <div class="item"><a href="trade.html"><i class="fas fa-desktop"></i>Watchlist</a></div>
+            <div class="item"><a class="sub-btn"><i class="fas fa-table"></i>Satistics
+            <i class="fas fa-angle-right dropdown"></i>
+            </a>
+            <div class="sub-menu">
+                <a href="volume.html" class="sub-item">Volume chart</a>
+                <a href="" class="sub-item">CandleStick Chart </a>
+                <a href="" class="sub-item">Bollinger Bands</a>
+            </div>
+            </div>
+            <div class="item"><a class="sub-btn"><i class="fas fa-money-check-alt"></i>Orders
+                <i class="fas fa-angle-right dropdown"></i>
+            </a>
+            <div class="sub-menu">
+                <a href="" class="sub-item"> Wallet</a>
+                <a href="currencyconverter.html" class="sub-item">Exchange Currency</a>
+            </div>
+            </div>
+       
+            <div class="item"><a href=""><i class="fas fa-user-alt"></i>Account</a></div>
+         </div>   
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function(){
+                $('.menu-btn').click(function(){
+                    $('.side-bar').addClass('active');
+                    $('.menu-btn').css("visibility","hidden")
+                });
+
+                $('.close-btn').click(function(){
+                    $('.side-bar').removeClass('active');
+                    $('.menu-btn').css("visibility","visible");
+                });
+                 
+                $('.sub-btn').click(function(){
+                    $(this).next('.sub-menu').slideToggle();
+                    $(this).find('.dropdown').toggleClass('rotate');
+                });
+           })
+        </script>
+    </body>
+</html>

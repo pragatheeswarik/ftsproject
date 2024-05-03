@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchlist</title>
+    <style>
+        /* CSS styles */
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+        }
+
+        .indices {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 20px;
+        }
+
+        .indices span {
+            margin-right: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #addButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        #addButton:hover {
+            background-color: #0056b3;
+        }
+
+        /* Watchlist styles */
+        .watchlist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .company {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .company .name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .company .short-form {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .company .last-price {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .company .change {
+            font-size: 16px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .company .volume {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .company .remove-button {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .company .remove-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="indices" id="indices">
+            <!-- Nifty 50 and Sensex will be dynamically added here -->
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for companies...">
+            <button id="addButton">Add</button>
+            <div id="dropdown"></div>
+        </div>
+    </div>
+    <div class="watchlist" id="watchlist">
+        <!-- Companies will be dynamically added here -->
+    </div>
+    <script>
+        // JavaScript to fetch data from API and populate indices
+        const apiKey = 'YOUR_API_KEY'; // Replace with your API key
+        const nifty50Endpoint = 'API_ENDPOINT'; // Replace with API endpoint for Nifty 50
+        const sensexEndpoint = 'API_ENDPOINT'; // Replace with API endpoint for Sensex
+
+        // Fetch Nifty 50 data
+        fetch(nifty50Endpoint, {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const nifty50 = data; // Assuming API response is an array of Nifty 50 companies
+            const nifty50Element = document.createElement('span');
+            nifty50Element.textContent = 'Nifty 50';
+            document.getElementById('indices').appendChild(nifty50Element);
+            // Add more logic here to display Nifty 50 data if needed
+        })
+        .catch(error => console.error('Error fetching Nifty 50 data:', error));
+
+        // Fetch Sensex data
+        fetch(sensexEndpoint, {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const sensex = data; // Assuming API response is an array of Sensex companies
+            const sensexElement = document.createElement('span');
+            sensexElement.textContent = 'Sensex';
+            document.getElementById('indices').appendChild(sensexElement);
+            // Add more logic here to display Sensex data if needed
+        })
+        .catch(error => console.error('Error fetching Sensex data:', error));
+
+        // JavaScript for adding companies to watchlist
+        const nifty50Companies = [
+            "Adani Ports and Special Economic Zone",
+            "Asian Paints",
+            "Axis Bank",
+            "Bajaj Auto",
+            "Bajaj Finance",
+            "Bajaj Finserv",
+            "Bharti Airtel",
+            "Britannia Industries",
+            "Cipla",
+            "Coal India",
+            "Divi's Laboratories",
+            "Dr. Reddy's Laboratories",
+            "Eicher Motors",
+            "Grasim Industries",
+            "HCL Technologies",
+            "HDFC",
+            "HDFC Bank",
+            "Hero MotoCorp",
+            "Hindalco Industries",
+            "Hindustan Unilever",
+            "ICICI Bank",
+            "Indian Oil Corporation",
+            "IndusInd Bank",
+            "Infosys",
+            "ITC Limited",
+            "JSW Steel",
+            "Kotak Mahindra Bank",
+            "Larsen & Toubro",
+            "Mahindra & Mahindra",
+            "Marico",
+            "Maruti Suzuki India",
+            "Nestlé India",
+            "NTPC Limited",
+            "Oil and Natural Gas Corporation",
+            "Power Grid Corporation of India",
+            "Reliance Industries",
+            "Shree Cements",
+            "State Bankof India",
+            "SBI Life Insurance Company",
+            "Sun Pharmaceutical",
+            "Tata Consumer Products",
+            "Tata Motors",
+            "Tata Steel",
+            "Tech Mahindra",
+            "Titan Company",
+            "UltraTech Cement",
+            "United Phosphorus",
+            "Wipro"
+        ];
+
+        const searchInput = document.querySelector("#searchInput");
+        const dropdown = document.querySelector("#dropdown");
+        const addButton = document.querySelector("#addButton");
+        const watchlist = document.querySelector("#watchlist");
+
+        searchInput.addEventListener("input", (e) => {
+            const value = e.target.value.toLowerCase();
+            const filteredCompanies = nifty50Companies.filter((company) =>
+                company.toLowerCase().startsWith(value)
+            );
+            renderDropdown(filteredCompanies);
+        });
+
+        function renderDropdown(companies) {
+            if (companies.length > 0) {
+                dropdown.innerHTML = "";
+                companies.forEach((company) => {
+                    const option = document.createElement("div");
+                    option.classList.add("option");
+                    option.textContent = company;
+                    dropdown.appendChild(option);
+
+                    option.addEventListener("click", () => {
+                        addToWatchlist(company);
+                        dropdown.innerHTML = "";
+                        searchInput.value = "";
+                    });
+                });
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        function addToWatchlist(company) {
+            const companyInfo = document.createElement("div");
+            companyInfo.classList.add("company", "info");
+            companyInfo.innerHTML = `
+                <div class="name">${company}</div>
+                <div class="short-form">${company.split(" ")[0]}</div>
+            `;
+
+            const companyStats = document.createElement("div");
+            companyStats.classList.add("company", "stats");
+
+            const lastPrice = document.createElement("div");
+            lastPrice.classList.add("last-price");
+            lastPrice.textContent = "₹ --";
+            companyStats.appendChild(lastPrice);
+
+            const change = document.createElement("div");
+            change.classList.add("change");
+            change.textContent = "Change (%) --";
+            companyStats.appendChild(change);
+
+            const volume = document.createElement("div");
+            volume.classList.add("volume");
+            volume.textContent = "Volume --";
+            companyStats.appendChild(volume);
+
+            const removeButton = document.createElement("button");
+            removeButton.classList.add("button", "remove-button");
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", () => {
+                companyInfo.remove();
+                companyStats.remove();
+            });
+
+            companyStats.appendChild(removeButton);
+
+            watchlist.appendChild(companyInfo);
+            watchlist.appendChild(companyStats);
+        }
+
+        addButton.addEventListener("click", () => {
+            const company = searchInput.value.trim();
+            if (company !== "") {
+                addToWatchlist(company);
+                searchInput.value = "";
+            }
+        });
+    </script>
+</body>
+</html>
